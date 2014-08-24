@@ -13,8 +13,10 @@ library(plyr)
 key <- "itsasecret"
 secret <- "itsasecret"
 
-# #necessary step for running locally on Windows
-# download.file(url="http://curl.haxx.se/ca/cacert.pem", destfile="cacert.pem")
+credfile="cacert.pem"
+
+# necessary step for running locally on Windows
+# download.file(url="http://curl.haxx.se/ca/cacert.pem", destfile=credfile)
 
 cred <- OAuthFactory$new(consumerKey=key,
                          consumerSecret=secret,
@@ -22,9 +24,17 @@ cred <- OAuthFactory$new(consumerKey=key,
                          accessURL='https://api.twitter.com/oauth/access_token',
                          authURL='http://api.twitter.com/oauth/authorize')
 
-credfile="cacert.pem"
+
 cred.save="twitter_authentication.Rdata"
+
+#first time running run, uncomment this line
+#to create an authentication file for the twitter api
+#save(cred.save)
+
+#every other time run this load command instead as 
+#the file will already have been built
 load(cred.save)
+
 registerTwitterOAuth(cred)
 
 # Define server logic required to draw a histogram
